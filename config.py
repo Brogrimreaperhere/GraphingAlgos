@@ -1,4 +1,4 @@
-GRAPH_SIZE = 512  # Size of the graph (can be changed)
+GRAPH_SIZE = 512  # Size of the graph
 INFINITY = float('inf')
 
 GRAPH = [
