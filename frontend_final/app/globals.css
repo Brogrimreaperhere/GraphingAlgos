@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 190 65% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 190 65% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 190 65% 12%;
+    --primary: 187 42% 82%;
+    --primary-foreground: 190 65% 12%;
+    --secondary: 187 18% 64%;
+    --secondary-foreground: 190 65% 12%;
+    --muted: 187 18% 95%;
+    --muted-foreground: 187 10% 40%;
+    --accent: 187 18% 64%;
+    --accent-foreground: 190 65% 12%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 187 18% 85%;
+    --input: 187 18% 85%;
+    --ring: 187 42% 60%;
+    --radius: 0.5rem;
+    --chart-1: 187 42% 60%;
+    --chart-2: 190 65% 25%;
+    --chart-3: 187 18% 64%;
+    --chart-4: 187 42% 82%;
+    --chart-5: 190 65% 12%;
+    --heading: 187 42% 25%;
+  }
+
+  .dark {
+    --background: 190 65% 12%;
+    --foreground: 187 42% 82%;
+    --card: 190 65% 12%;
+    --card-foreground: 187 42% 82%;
+    --popover: 190 65% 12%;
+    --popover-foreground: 187 42% 82%;
+    --primary: 187 42% 60%;
+    --primary-foreground: 190 65% 12%;
+    --secondary: 187 18% 40%;
+    --secondary-foreground: 187 42% 82%;
+    --muted: 187 18% 25%;
+    --muted-foreground: 187 18% 70%;
+    --accent: 187 18% 40%;
+    --accent-foreground: 187 42% 82%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 187 42% 82%;
+    --border: 187 18% 30%;
+    --input: 187 18% 30%;
+    --ring: 187 42% 60%;
+    --chart-1: 187 42% 60%;
+    --chart-2: 187 42% 82%;
+    --chart-3: 187 18% 64%;
+    --chart-4: 190 65% 25%;
+    --chart-5: 190 65% 12%;
+    --heading: 187 80% 80%;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: hsl(var(--heading));
+    font-weight: 600;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .animated-button {
+    @apply relative overflow-hidden transition-all duration-300 ease-in-out bg-gradient-teal hover:shadow-lg hover:scale-105 transform;
+  }
+
+  .animated-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: 0.2;
+    transform: skewX(-45deg);
+    transition: all 0.5s ease-in-out;
+  }
+
+  .animated-button:hover::after {
+    left: 100%;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .section-heading {
+    @apply text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl;
+  }
+
+  .subsection-heading {
+    @apply text-lg font-semibold;
+  }
+}
