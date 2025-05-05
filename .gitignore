@@ -26,3 +26,6 @@ pyproject.toml
 # Local env files
 .env
 .env.*
+
+# Sqlite DB
+db.sqlite3

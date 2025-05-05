@@ -1,7 +1,0 @@
-mpi4py
-numba
-numpy
-cupy
-matplotlib
-networkx
-pandas
