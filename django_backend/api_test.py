@@ -1,48 +1,86 @@
 import requests
 
 # URL of your local Django server
-base_url = "http://127.0.0.1:8000/api/mpi"
+mpi_base_url = "http://127.0.0.1:8000/api/mpi"
+cuda_base_url = "http://127.0.0.1:8000/api/cuda"
 
-# Bellman-Ford API test
+# ------------------ MPI Tests ------------------
+
 def test_bellman_ford():
-    url = f"{base_url}/bellman_ford/"
+    url = f"{mpi_base_url}/bellman_ford/"
     response = requests.get(url)
-    
     if response.status_code == 200:
-        print("Bellman-Ford API Response:")
-        print(response.json())  # This prints the result returned by the API
+        print("Bellman-Ford (MPI) API Response:")
+        print(response.json())
     else:
-        print("Bellman-Ford API failed with status code:", response.status_code)
+        print("Bellman-Ford (MPI) API failed with status code:", response.status_code)
+        print("Error:", response.json())
 
-# Dijkstra API test
 def test_dijkstra():
-    url = f"{base_url}/dijkstra/"
+    url = f"{mpi_base_url}/dijkstra/"
     response = requests.get(url)
-    
     if response.status_code == 200:
-        print("Dijkstra API Response:")
-        print(response.json())  # This prints the result returned by the API
+        print("Dijkstra (MPI) API Response:")
+        print(response.json())
     else:
-        print("Dijkstra API failed with status code:", response.status_code)
+        print("Dijkstra (MPI) API failed with status code:", response.status_code)
+        print("Error:", response.json())
 
-# Floyd-Warshall API test
 def test_floyd_warshall():
-    url = f"{base_url}/floyd_warshall/"
+    url = f"{mpi_base_url}/floyd_warshall/"
     response = requests.get(url)
-    
     if response.status_code == 200:
-        print("Floyd-Warshall API Response:")
-        print(response.json())  # This prints the result returned by the API
+        print("Floyd-Warshall (MPI) API Response:")
+        print(response.json())
     else:
-        print("Floyd-Warshall API failed with status code:", response.status_code)
+        print("Floyd-Warshall (MPI) API failed with status code:", response.status_code)
+        print("Error:", response.json())
 
-# Run all the tests
+# ------------------ CUDA Tests ------------------
+
+def test_cuda_bellman_ford():
+    url = f"{cuda_base_url}/bellman_ford/"
+    response = requests.get(url)
+    if response.status_code == 200:
+        print("Bellman-Ford (CUDA) API Response:")
+        print(response.json())
+    else:
+        print("Bellman-Ford (CUDA) API failed with status code:", response.status_code)
+        print("Error:", response.json())
+
+def test_cuda_dijkstra():
+    url = f"{cuda_base_url}/dijkstra/"
+    response = requests.get(url)
+    if response.status_code == 200:
+        print("Dijkstra (CUDA) API Response:")
+        print(response.json())
+    else:
+        print("Dijkstra (CUDA) API failed with status code:", response.status_code)
+        print("Error:", response.json())
+
+def test_cuda_floyd_warshall():
+    url = f"{cuda_base_url}/floyd_warshall/"
+    response = requests.get(url)
+    if response.status_code == 200:
+        print("Floyd-Warshall (CUDA) API Response:")
+        print(response.json())
+    else:
+        print("Floyd-Warshall (CUDA) API failed with status code:", response.status_code)
+        print("Error:", response.json())
+
+# ------------------ Run All Tests ------------------
+
 if __name__ == "__main__":
-    print("Running Bellman-Ford API Test...")
+    print("=== Running MPI Algorithm API Tests ===")
     test_bellman_ford()
-    
-    print("\nRunning Dijkstra API Test...")
+    print()
     test_dijkstra()
-    
-    print("\nRunning Floyd-Warshall API Test...")
+    print()
     test_floyd_warshall()
+
+    print("\n=== Running CUDA Algorithm API Tests ===")
+    test_cuda_bellman_ford()
+    print()
+    test_cuda_dijkstra()
+    print()
+    test_cuda_floyd_warshall()

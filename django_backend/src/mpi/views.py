@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from mpi4py import MPI
-from .config.main import GRAPH, INFINITY
+from src.config.main import GRAPH, INFINITY
 import copy
 
 def bellman_ford(graph, src, rank, size):

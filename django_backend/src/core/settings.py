@@ -28,7 +28,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     # Modules
-    'src.mpi'
+    'src.mpi',
+    'src.cuda',
+    'src.config'
 ]
 
 MIDDLEWARE = [
