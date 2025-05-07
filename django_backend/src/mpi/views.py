@@ -1,5 +1,3 @@
-# bellman_ford/views.py
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -7,7 +5,7 @@ from mpi4py import MPI
 from src.utils.config import GRAPH, INFINITY
 import copy
 
-def bellman_ford(graph, src, rank, size):
+def bellman_ford_mpi(graph, src, rank, size):
     n = len(graph)
     dist = [INFINITY] * n
     dist[src] = 0
@@ -19,7 +17,7 @@ def bellman_ford(graph, src, rank, size):
                     dist[v] = dist[u] + graph[u][v]
     return dist
 
-def dijkstra_parallel(graph, source=0):
+def dijkstra_mpi(graph, source=0):
     comm = MPI.COMM_WORLD
     rank = comm.Get_rank()
     size = comm.Get_size()
@@ -69,7 +67,7 @@ class BellmanFordAPI(APIView):
         rank = comm.Get_rank()
         size = comm.Get_size()
 
-        partial_result = bellman_ford(GRAPH, 0, rank, size)
+        partial_result = bellman_ford_mpi(GRAPH, 0, rank, size)
         all_results = comm.gather(partial_result, root=0)
 
         if rank == 0:
@@ -84,7 +82,7 @@ class DijkstraParallelAPI(APIView):
         source = int(request.GET.get('source', 0))  # Get the source from the query parameters (default: 0)
         
         try:
-            result = dijkstra_parallel(GRAPH, source)
+            result = dijkstra_mpi(GRAPH, source)
             return Response({"status": "success", "result": result}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"status": "failure", "message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

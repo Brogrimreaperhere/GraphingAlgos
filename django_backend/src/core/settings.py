@@ -30,7 +30,9 @@ INSTALLED_APPS = [
     # Modules
     'src.mpi',
     'src.cuda',
-    'src.config'
+    'src.utils',
+    'src.sequential',
+    'src.graph',
 ]
 
 MIDDLEWARE = [
