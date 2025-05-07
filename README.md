@@ -1,63 +1,107 @@
 # GraphingAlgos
 Semester Project for Parallel Computing
-1 Introduction
-This project explores parallel implementations of three classical graph algorithms — Di-
-jkstra, Floyd-Warshall, and Bellman-Ford — using MPI (Message Passing Interface) for
-distributed computing and CUDA (Compute Unified Device Architecture) for GPU ac-
-celeration. To enhance accessibility and analysis, we developed a full-stack web interface
-with a React TypeScript frontend and a Django backend that visualizes the algorithms’
-performance through interactive charts.
-2 Problem Description and Motivation
-Graph algorithms are fundamental in fields like routing, logistics, and network optimiza-
-tion. However, their time complexity becomes a bottleneck for large-scale data. This
-project seeks to accelerate these algorithms by applying parallelism and allow real-time
-performance visualization via a web application.
-3 Related Work
-Previous research highlights the benefits of parallelizing graph algorithms. MPI is com-
-monly used for distributed systems, and CUDA efficiently utilizes GPUs for highly par-
-allelizable computations. While similar efforts exist in high-performance computing, our
-project distinguishes itself with a full-stack platform for visualization and comparison.
-4 System Design
-4.1 Parallel Algorithm Implementation
-• Languages: Python (with mpi4py), CUDA C++
-• Algorithms:
-– Dijkstra (MPI & CUDA)
-– Floyd-Warshall (MPI & CUDA)
-– Bellman-Ford (MPI & CUDA)
-1
-• Graph Representation: 2D adjacency matrices with infinity for unreachable
-nodes
-• Testing Scale: Graphs with 100 to 1000 nodes
-4.2 Full-Stack Application
-• Frontend: React with TypeScript, Chart.js and Recharts
-• Backend: Django with REST APIs
-• Web Pages:
-– Landing Page
-– Dijkstra MPI Page
-– Dijkstra CUDA Page
-– Floyd-Warshall MPI Page
-– Floyd-Warshall CUDA Page
-– Bellman-Ford MPI Page
-– Bellman-Ford CUDA Page
-5 Results and Performance Analysis
-5.1 Metrics
-• Execution Time (ms)
-• Speedup (T1/Tn)
-• Scalability (time vs number of nodes)
-5.2 Summary Table
-Algorithm Implementation Speedup Notes
-Dijkstra MPI ˜3.2x Sparse graphs perform well
-Dijkstra CUDA ˜12x Excellent on dense graphs
-Floyd-Warshall MPI ˜2.8x Good for smaller matrices
-Floyd-Warshall CUDA ˜15x GPU excels in matrix ops
-Bellman-Ford MPI ˜2.5x Slower due to communication
-Bellman-Ford CUDA ˜10x Strong GPU performance
-6 Discussion
-CUDA implementations clearly outperformed MPI in large datasets due to GPU paral-
-lelism. MPI showed better CPU-core utilization for modestly sized graphs. Visualizing
-these differences helped us gain a deeper understanding of the performance trade-offs.
-2
-7 Conclusion
-We demonstrated that parallel graph algorithms significantly reduce computation time
-using MPI and CUDA. The frontend adds value by making the data visual and interactive,
-making our project not just computational but educational
+
+# Parallel Graph Algorithms Visualization Platform
+
+This project implements **parallel versions** of three classical graph algorithms — **Dijkstra**, **Floyd-Warshall**, and **Bellman-Ford** — using both **MPI** and **CUDA**. It also includes a **full-stack web interface** that visualizes the algorithms' performance through interactive charts.
+
+## 📌 Table of Contents
+
+- [Introduction](#introduction)
+- [Problem Statement](#problem-statement)
+- [Technologies Used](#technologies-used)
+- [System Design](#system-design)
+- [Performance](#performance)
+- [Screenshots](#screenshots)
+- [Conclusion](#conclusion)
+- [Authors](#authors)
+
+---
+
+## 🚀 Introduction
+
+Graph algorithms are computationally intensive, especially for large datasets. This project explores GPU and distributed CPU-based acceleration techniques, coupled with a frontend that lets users visualize performance metrics.
+
+---
+
+## 🧠 Problem Statement
+
+Graph-based problems such as routing and network optimization can be slow on large inputs. This project aims to:
+- Parallelize graph algorithms using MPI and CUDA.
+- Allow **real-time visualization** of algorithm performance through a web UI.
+
+---
+
+## 🔧 Technologies Used
+
+### Algorithms and Backend
+- **Languages:** Python, CUDA C++
+- **Frameworks:** mpi4py, CuPy / PyCUDA
+- **Backend:** Django with REST APIs
+
+### Frontend
+- **Framework:** React with TypeScript
+- **Visualization:** Chart.js and Recharts
+
+---
+
+## 🛠️ System Design
+
+### 1. Parallel Algorithm Implementations
+- ✅ Dijkstra (MPI & CUDA)
+- ✅ Floyd-Warshall (MPI & CUDA)
+- ✅ Bellman-Ford (MPI & CUDA)
+
+All algorithms use **2D adjacency matrices** (with `inf` for unreachable nodes) and are tested on graphs ranging from 100 to 1000 nodes.
+
+### 2. Full-Stack Application
+
+#### Pages:
+- Landing Page
+- Dijkstra MPI
+- Dijkstra CUDA
+- Floyd-Warshall MPI
+- Floyd-Warshall CUDA
+- Bellman-Ford MPI
+- Bellman-Ford CUDA
+
+---
+
+## 📊 Performance
+
+### 📈 Metrics
+- Execution Time (ms)
+- Speedup (T₁ / Tₙ)
+- Scalability (time vs number of nodes)
+
+### 🔍 Summary Table
+
+| Algorithm          | Implementation | Speedup | Notes                          |
+|-------------------|----------------|---------|--------------------------------|
+| Dijkstra          | MPI            | ~3.2x   | Sparse graphs perform well     |
+| Dijkstra          | CUDA           | ~12x    | Excellent on dense graphs      |
+| Floyd-Warshall    | MPI            | ~2.8x   | Good for smaller matrices      |
+| Floyd-Warshall    | CUDA           | ~15x    | GPU excels in matrix ops       |
+| Bellman-Ford      | MPI            | ~2.5x   | Slower due to communication    |
+| Bellman-Ford      | CUDA           | ~10x    | Strong GPU performance         |
+
+---
+
+## 🖼️ Screenshots
+
+> Add screenshots of each algorithm page and sample bar/line graphs here (optional).
+
+---
+
+## 🧾 Conclusion
+
+- Parallel processing **drastically reduces computation time**.
+- CUDA consistently outperforms MPI in large datasets.
+- The **interactive web interface** transforms raw data into educational insights.
+
+---
+
+## 👥 Authors
+
+- Mohammad Noman, Ubaid ur Rehman, Muhammad Shaheer
+
