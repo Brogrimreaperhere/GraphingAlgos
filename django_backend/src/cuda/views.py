@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 import numpy as np
 import cupy as cp
-from src.config.main import GRAPH, INFINITY
+from src.utils.config import GRAPH, INFINITY
 
 
 class CudaBellmanFordAPIView(APIView):
