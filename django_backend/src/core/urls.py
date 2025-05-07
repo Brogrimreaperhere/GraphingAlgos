@@ -7,4 +7,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/mpi/', include('src.mpi.urls')),
     path('api/cuda/', include('src.cuda.urls')),
+    path('api/sequential/', include('src.sequential.urls')),
+    path('api/graph/', include('src.graph.urls')),
 ]

@@ -1,94 +1,115 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from src.utils.timing import timeit
 from src.graph.models import Graph
 import numpy as np
 import heapq
 
+
 class BellmanFordCPU(APIView):
     def get(self, request, graph_id):
         try:
-            # Fetch the graph from the database using its ID
             graph_obj = Graph.objects.get(id=graph_id)
-            graph = graph_obj.get_graph()  # Deserialize the graph back into a NumPy array
-            size = graph.shape[0]
-            dist = [float('inf')] * size
-            dist[0] = 0
+            graph = graph_obj.get_graph()
 
-            # Bellman-Ford algorithm
-            for _ in range(size - 1):
-                for u in range(size):
-                    for v in range(size):
-                        if graph[u][v] != float('inf') and dist[u] + graph[u][v] < dist[v]:
-                            dist[v] = dist[u] + graph[u][v]
-
+            (distances, elapsed) = self._bellman_ford_timed(graph)
             return Response({
                 "algorithm": "bellman_ford",
-                "distances": dist
+                "distances": distances,
+                "time_seconds": elapsed
             })
         except Graph.DoesNotExist:
-            return Response({
-                "message": "Graph not found"
-            }, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Graph not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    @timeit
+    def _bellman_ford_timed(self, graph: np.ndarray):
+        n = graph.shape[0]
+        dist = [float('inf')] * n
+        dist[0] = 0
+
+        # relax edges repeatedly
+        for _ in range(n - 1):
+            for u in range(n):
+                for v in range(n):
+                    w = graph[u][v]
+                    if w != float('inf') and dist[u] + w < dist[v]:
+                        dist[v] = dist[u] + w
+
+        # negative-cycle detection
+        for u in range(n):
+            for v in range(n):
+                w = graph[u][v]
+                if w != float('inf') and dist[u] + w < dist[v]:
+                    raise ValueError("Negative cycle detected")
+
+        return dist
 
 
 class DijkstraCPU(APIView):
     def get(self, request, graph_id):
         try:
-            # Fetch the graph from the database using its ID
             graph_obj = Graph.objects.get(id=graph_id)
-            graph = graph_obj.get_graph()  # Deserialize the graph back into a NumPy array
-            size = graph.shape[0]
-            dist = [float('inf')] * size
-            dist[0] = 0
-            visited = set()
-            min_heap = [(0, 0)]
+            graph = graph_obj.get_graph()
 
-            # Dijkstra's algorithm
-            while min_heap:
-                cur_dist, u = heapq.heappop(min_heap)
-                if u in visited:
-                    continue
-                visited.add(u)
-
-                for v in range(size):
-                    if graph[u][v] != float('inf'):
-                        new_dist = dist[u] + graph[u][v]
-                        if new_dist < dist[v]:
-                            dist[v] = new_dist
-                            heapq.heappush(min_heap, (new_dist, v))
-
+            (distances, elapsed) = self._dijkstra_timed(graph)
             return Response({
                 "algorithm": "dijkstra",
-                "distances": dist
+                "distances": distances,
+                "time_seconds": elapsed
             })
         except Graph.DoesNotExist:
-            return Response({
-                "message": "Graph not found"
-            }, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Graph not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    @timeit
+    def _dijkstra_timed(self, graph: np.ndarray):
+        n = graph.shape[0]
+        dist = [float('inf')] * n
+        dist[0] = 0
+        visited = set()
+        heap = [(0, 0)]
+
+        while heap:
+            d_u, u = heapq.heappop(heap)
+            if u in visited:
+                continue
+            visited.add(u)
+
+            for v in range(n):
+                w = graph[u][v]
+                if w != float('inf'):
+                    nd = d_u + w
+                    if nd < dist[v]:
+                        dist[v] = nd
+                        heapq.heappush(heap, (nd, v))
+
+        return dist
 
 
 class FloydWarshallCPU(APIView):
     def get(self, request, graph_id):
         try:
-            # Fetch the graph from the database using its ID
             graph_obj = Graph.objects.get(id=graph_id)
-            graph = graph_obj.get_graph()  # Deserialize the graph back into a NumPy array
-            size = graph.shape[0]
-            dist = graph.copy()
+            graph = graph_obj.get_graph()
 
-            # Floyd-Warshall algorithm
-            for k in range(size):
-                for i in range(size):
-                    for j in range(size):
-                        if dist[i][k] + dist[k][j] < dist[i][j]:
-                            dist[i][j] = dist[i][k] + dist[k][j]
-
+            (dist_matrix, elapsed) = self._floyd_warshall_timed(graph)
             return Response({
                 "algorithm": "floyd_warshall",
-                "distances": dist.tolist()
+                "distances": dist_matrix.tolist(),
+                "time_seconds": elapsed
             })
         except Graph.DoesNotExist:
-            return Response({
-                "message": "Graph not found"
-            }, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "Graph not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    @timeit
+    def _floyd_warshall_timed(self, graph: np.ndarray):
+        n = graph.shape[0]
+        dist = graph.copy()
+
+        for k in range(n):
+            for i in range(n):
+                for j in range(n):
+                    if dist[i][k] + dist[k][j] < dist[i][j]:
+                        dist[i][j] = dist[i][k] + dist[k][j]
+
+        return dist

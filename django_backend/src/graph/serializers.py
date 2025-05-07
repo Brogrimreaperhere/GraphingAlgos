@@ -6,6 +6,7 @@ class GraphSerializer(serializers.ModelSerializer):
     class Meta:
         model = Graph
         fields = ['id', 'size', 'density', 'data']
+        read_only_fields = ['id', 'data']
 
     def create(self, validated_data):
         size = validated_data.get('size', 10)
@@ -15,7 +16,6 @@ class GraphSerializer(serializers.ModelSerializer):
         
         graph_obj = Graph(size=size, density=density)
         graph_obj.save_graph(graph)
-        
         return graph_obj
 
     def update(self, instance, validated_data):
@@ -24,5 +24,4 @@ class GraphSerializer(serializers.ModelSerializer):
         
         graph = generate_random_graph(size=instance.size, density=instance.density)
         instance.save_graph(graph)
-        
         return instance

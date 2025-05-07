@@ -21,7 +21,6 @@ env/
 
 # Poetry Dependencies
 poetry.lock
-pyproject.toml
 
 # Local env files
 .env

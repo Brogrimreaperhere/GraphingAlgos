@@ -1,11 +1,10 @@
 [project]
-name = "django-backend"
+name = "django_backend"
 version = "0.1.0"
 description = ""
 authors = [
     {name = "Xiron",email = "xiron7077@gmail.com"}
 ]
-readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "mpi4py (>=4.0.3,<5.0.0)",
