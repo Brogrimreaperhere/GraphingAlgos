@@ -85,13 +85,7 @@ All algorithms use **2D adjacency matrices** (with `inf` for unreachable nodes) 
 | Bellman-Ford      | MPI            | ~2.5x   | Slower due to communication    |
 | Bellman-Ford      | CUDA           | ~10x    | Strong GPU performance         |
 
----
 
-## 🖼️ Screenshots
-
-> Add screenshots of each algorithm page and sample bar/line graphs here (optional).
-
----
 
 ## 🧾 Conclusion
 
